@@ -8,11 +8,20 @@
 
 ### Решение 1
 
-![vms]()
-![подключение к бастиону]()
-![подключение к web-a]()
-![подключение к web-b]()
-![запуск плейбука test.yml]()
+Развернул бастион сервер и два веб-сервера:
+![vms](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t1_vms.png)
+
+Подключаемся к бастиону:
+![подключение к бастиону](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t1_bastion.png)
+
+Подключаемся через ssh jump к веб-серверу web-a:
+![подключение к web-a](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t1_web-a.png)
+
+Подключаемся через ssh jump к веб-серверу web-b:
+![подключение к web-b](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t1_web-b.png)
+
+Запускаем тестовый плейбук:
+![запуск плейбука test.yml](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t1_test.png)
 
 ---
 
@@ -27,9 +36,13 @@
 
 ### Решение 2
 
-![запуск плейбука nginx.yml]()
-![проверка ручками установки nginx на web-a]()
-![проверка ручками установки nginx на web-b]()
+Запускаем [плейбук](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/nginx.yml) для установки nginx на веб-серверах:
+![запуск плейбука nginx.yml](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t2_nginx_install.png)
+
+Проверим руками установку nginx на обоих серверах:
+![проверка ручками установки nginx на web-a](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t2_nginxin_check_web-a.png)
+
+![проверка ручками установки nginx на web-b](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t2_nginxin_check_web-b.png)
 
 ---
 
@@ -45,9 +58,14 @@
 
 ### Решение 3
 
-![подключение к web-c]()
-![установили postgresql]()
-![проверили ручками установку postgresql]()
+Развернули третий веб-сервер и подключились к нему:
+![подключение к web-c](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t3_web-c.png)
+
+Запускаем [плейбук](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/postgre.yml) для установки postgresql на веб-сервере и проверим его состояние:
+![установили postgresql](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t3_postgre_install.png)
+
+Хоть плейбук и проверил состояние установки postgresql на сервере, зайдем и сами проверим его установку:
+![проверили ручками установку postgresql](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t3_postgre_check.png)
 
 ---
 
@@ -64,7 +82,36 @@
 
 ### Решение 4
 
-![terraform destroy]()
-![добавили в .bashrc комманду на добавление токена при запуске терминала]()
-![удалили из файла providers.tf строку "service_account_key_file = file("~/.authorized_key.json")"]()
-![запустили terraform apply без переменных token и service_account_key_file]()
+Уничтожили предыдущую инфраструктуру, для будущей проверки разворачивания инфраструктуры без переменных *token* и *service_account_key_file*:
+![terraform destroy](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t4_destroy.png)
+
+Добавляем в конец файла **~/.bashrc** комманду на добавление переменной с IAM-токеном при запуске терминала:
+![добавили в .bashrc комманду на добавление токена при запуске терминала](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t4_bashrc.png)
+
+Удалиляем из файла **providers.tf** строку *"service_account_key_file = file("~/.authorized_key.json"*:
+![удалили из файла providers.tf строку "service_account_key_file = file("~/.authorized_key.json")"](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t4_prov.png)
+
+Запускаем **terraform apply**
+![запустили terraform apply без переменных token и service_account_key_file](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/scshots/yc_t4_apply.png)
+
+**PROFIT!!!**
+
+---
+
+**Файлы кода инфраструктуры:**
+
+Конфигурация провайдера - [providers.tf](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/providers.tf)
+
+Конфигурация сетей - [networks.tf](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/networks.tf)
+
+Конфигурация вирутальных машин - [main.tf](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/main.tf)
+
+Переменные - [variables.tf](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/variables.tf)
+
+**Плейбуки:**
+
+Тестовый плейбук - [test.yml](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/test.yml)
+
+Плейбук на установку nginx - [nginx.yml](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/nginx.yml)
+
+Плейбук на установку postgresql - [postgre.yml](https://github.com/murtazinilyas/7.3_YC-infrastructure_mia/blob/main/postgre.yml)
