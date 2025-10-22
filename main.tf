@@ -105,40 +105,40 @@ resource "yandex_compute_instance" "web_b-mia" {
   }
 }
 
-# resource "yandex_compute_instance" "web_c-mia" {
-#   name        = "web-c-mia"
-#   hostname    = "web-c-mia"
-#   platform_id = "standard-v4a"
-#   zone        = "ru-central1-b"
+  resource "yandex_compute_instance" "web_c-mia" {
+    name        = "web-c-mia"
+    hostname    = "web-c-mia"
+    platform_id = "standard-v4a"
+    zone        = "ru-central1-b"
 
-#   resources {
-#     cores         = var.test.cores
-#     memory        = var.test.memory
-#     core_fraction = var.test.core_fraction
-#   }
+    resources {
+      cores         = var.test.cores
+      memory        = var.test.memory
+      core_fraction = var.test.core_fraction
+    }
 
-#   boot_disk {
-#     initialize_params {
-#       image_id = data.yandex_compute_image.ubuntu_2404_lts.image_id
-#       type     = "network-hdd"
-#       size     = 10
-#     }
-#   }
+    boot_disk {
+      initialize_params {
+        image_id = data.yandex_compute_image.ubuntu_2404_lts.image_id
+        type     = "network-hdd"
+        size     = 10
+      }
+    }
 
-#   metadata = {
-#     user-data          = file("./cloud-init.yml")
-#     serial-port-enable = 1
-#   }
+    metadata = {
+      user-data          = file("./cloud-init.yml")
+      serial-port-enable = 1
+    }
 
-#   scheduling_policy { preemptible = true }
+    scheduling_policy { preemptible = true }
 
-#   network_interface {
-#     subnet_id          = yandex_vpc_subnet.edu_b-mia.id
-#     nat                = false
-#     security_group_ids = [yandex_vpc_security_group.LAN.id, yandex_vpc_security_group.web_sg.id]
+    network_interface {
+      subnet_id          = yandex_vpc_subnet.edu_b-mia.id
+      nat                = false
+      security_group_ids = [yandex_vpc_security_group.LAN.id, yandex_vpc_security_group.web_sg.id]
 
-#   }
-# }
+    }
+  }
 
 resource "local_file" "inventory" {
   content  = <<-XYZ
